@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Generated outputs (keep templates)
+resume_*.docx
+cover_letter_*.docx
+
+# OS
+.DS_Store
+Thumbs.db

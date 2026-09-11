@@ -1,4 +1,7 @@
+anthropic
 google-genai
+groq
 python-docx
 colorama
 python-dotenv
+pywin32

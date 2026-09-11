@@ -126,7 +126,12 @@ def run_stress_test():
         print(f"{Fore.RED}Missing {app.MASTER_RESUME} in current folder. Cannot run stress test.{Style.RESET_ALL}")
         return
 
-    client = app.get_client()
+    provider = app.PROVIDER_FREE_FALLBACK
+    keys = app.collect_required_keys(provider)
+    if keys is None:
+        print(f"{Fore.RED}Missing required API keys for stress test.{Style.RESET_ALL}")
+        return
+    clients = app.build_clients_for_provider(provider, keys)
     jobs = generate_job_descriptions()
 
     results = []
@@ -134,7 +139,8 @@ def run_stress_test():
         try:
             resume_doc = Document(app.MASTER_RESUME)
             resume_map = app.build_paragraph_map(resume_doc)
-            result = app.request_edits(client, app.RESUME_RULES, job["description"], resume_map)
+            result = app.request_edits(clients, provider, app.RESUME_RULES, job["description"], resume_map)
+            result["edits"] = app.sanitize_edits(result["edits"])
             app.apply_edits(resume_doc, result["edits"])
             resume_text = extract_all_text(resume_doc)
             passed, reasons = validate(resume_text, job)

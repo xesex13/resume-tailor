@@ -11,8 +11,10 @@ venv/
 # Generated outputs (keep templates)
 resume_*.docx
 cover_letter_*.docx
-master_resume*.docx
-base_cover_letter*.docx
+
+# ignore personal resume and cover letter files
+*master_resume*
+*base_cover_letter*
 
 # OS
 .DS_Store

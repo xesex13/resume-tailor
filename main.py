@@ -9,6 +9,7 @@ so fonts/margins/styling survive.
 """
 
 import argparse
+import datetime
 import json
 import logging
 import os
@@ -882,7 +883,8 @@ Toronto Metropolitan University (TMU) Co-op student.
 
 RECIPIENT BLOCK & SALUTATION (fill in the existing header paragraphs, in this
 exact order -- do not add or remove paragraphs):
-1. Date: the current submission date.
+1. Date: use exactly the date given as TODAY'S DATE in the context below --
+   never guess, reuse an old date, or invent a different one.
 2. Hiring manager info: their name if the job posting names one, otherwise
    the literal string "Hiring Manager"; then the employer name; then the
    employer address (city, province/state, and postal code if known).
@@ -1071,7 +1073,10 @@ def tailor(job_description=None):
             COVER_LETTER_RULES,
             job_description,
             cover_map,
-            extra_context=f"TAILORED RESUME CONTENT FOR CONTEXT:\n{tailored_resume_text}",
+            extra_context=(
+                f"TODAY'S DATE: {datetime.date.today().strftime('%B %d, %Y')}\n\n"
+                f"TAILORED RESUME CONTENT FOR CONTEXT:\n{tailored_resume_text}"
+            ),
         )
         cover_result["edits"] = sanitize_edits(cover_result["edits"])
         cover_result["edits"] = dedupe_edits(cover_map, cover_result["edits"])
